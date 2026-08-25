@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.zack.104-job-tracker</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>-lc</string>
+        <string>~/Documents/104-job-tracker/scripts/run.sh</string>
+    </array>
+
+    <!-- 每小時的第 5 分執行一次，跟原本 GitHub Actions 的排程時間相同 -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Minute</key>
+        <integer>5</integer>
+    </dict>
+
+    <!-- 電腦剛開機、或你剛安裝好這個排程時，會先跑一次，方便馬上確認有沒有正常運作 -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/104-job-tracker-launchd.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/104-job-tracker-launchd.err</string>
+</dict>
+</plist>
