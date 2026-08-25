@@ -1,10 +1,13 @@
 name: 檢查104新職缺並通知Discord
 
 on:
-  schedule:
-    # 每小時的第 5 分執行一次（UTC 時間；避開整點大量排程擁擠）
-    - cron: "5 * * * *"
-  workflow_dispatch: {} # 讓你可以在 Actions 頁面手動按「Run workflow」測試
+  # 注意：排程（schedule）已經停用！
+  # 實測發現 104 人力銀行的 Cloudflare 防護機制，幾乎必定會擋下 GitHub Actions
+  # 這類「機房 IP」（公司頁面直接跳出人機驗證頁面、關鍵字搜尋回傳0筆），
+  # 跟程式碼寫得好不好無關。改成用 scripts/run.sh + launchd 在自己電腦上執行，
+  # 見 README「在自己電腦上排程執行」章節。這裡保留 workflow_dispatch
+  # 只是方便之後想手動測試/除錯時使用。
+  workflow_dispatch: {}
 
 permissions:
   contents: write
