@@ -6,8 +6,14 @@
 2. 找出「上次檢查之後才新出現」的職缺，發 Discord 通知給你。
 3. 把抓到的所有職缺整理成一個網站（用 GitHub Pages 架設），你可以搜尋、篩選、標記投遞狀態。
 
-整個流程完全免費，跑在 GitHub 自己的伺服器上（GitHub Actions），就算你的電腦關機，
-排程一樣會照常執行。
+> ⚠️ **重要更新**：原本設計是排程完全跑在 GitHub Actions（免開電腦）。但實測發現
+> 104 人力銀行的 Cloudflare 防護機制，幾乎必定會擋下 GitHub Actions 用的「機房 IP」
+> （公司頁面直接跳出人機驗證頁面、關鍵字搜尋回傳0筆），這是 IP 信譽問題，
+> 跟程式碼寫得好不好無關，改程式碼也解不了。
+>
+> 所以排程改成**在你自己的電腦上執行**（用你家裡/公司網路的IP，104不會擋），
+> 詳見下面「步驟六：在自己的電腦上排程執行」。GitHub Actions 的設定還留著，
+> 但只能拿來手動測試/除錯用，不會再臫動幫你抓職缺。
 
 ---
 
@@ -52,14 +58,14 @@
 
 ---
 
-## 步驟四：啟用 GitHub Pages（追蹤網站）
+## 步驟四：啟用 GitHub Pages ）追蹤網站）
 
 1. 到 repo 的 **Settings → Pages**。
 2. Source 選「Deploy from a branch」。
 3. Branch 選 `main`，資料夾選 `/ (root)`。
-4. 存檔後等 1-2 分鐘，頁面會顯示網站網址，長得像：
+4. 存檔後等 1-2 分鐘，頁面會顯確��ٞz網址，長徐像：
    `https://你的帳號.github.io/104-job-tracker/`
-5. 打開這個網址，就是你的職缺追蹤網站。剛開始因為還沒有資料，列表會是空的，
+5. 打開這個網址，就是你的職缺追蹤網站΁剛開始因為還沒有資料，列表會是空的，
    等第一次排程跑完（或你手動觸發一次，見步驟六）就會有內容。
 
 ---
@@ -95,22 +101,100 @@
 
 ---
 
-## 步驟六：手動測試一次
+## 步驟六：在自己的電腦上排程執行（目前唯一穩定可靠的方式）
 
-不用等到下一個整點，你可以立刻測試：
+因為 104 的 Cloudflare 防護會擋下 GitHub Actions 的機房 IP，實際抓職缺的排程
+改成用你自己的電腦執行（家用/公司網路的IP，104不會擋）。設定一次之後，
+Mac 會用內建的排程工具（launchd）**每小時自動幫你跑一次**，不需要打開任何程式。
 
-1. 到 repo 的 **Actions** 分頁。
-2. 左側選「檢查104新職缺並通知Discord」。
-3. 右邊「Run workflow」按鈕 → 再按一次綠色的「Run workflow」。
-4. 等它跑完（通常 1-3 分鐘，第一次會比較久，因為要下載瀏覽器），
-   點進去可以看到詳細 log。
-5. 如果一切正常：
-   - 第一次執行：Discord 不會收到訊息（除非你把 `notifyOnFirstRun` 設成 `true`），
-     但 `data/jobs.json` 會被更新、追蹤網站會開始有資料。
-   - 之後每次執行：只要抓到「新」職缺，就會發 Discord 通知。
+### 6-1　準備專案資料夾
 
-之後它會照 `.github/workflows/check-jobs.yml` 裡的排程，**每小時自動執行一次**，
-不需要你手動做任何事。
+把整個專案資料夾放到你的電腦上（例如 `~/Documents/104-job-tracker`），
+資料夾內容要跟這個 GitHub repo 一致（可以直接下載我準備好的版本，或用
+`git clone https://github.com/LU910324/104-job-tracker.git` 抓下來）。
+
+### 6-2　安裝需要的套件
+
+打開「終端機 Terminal」，執行：
+
+```bash
+cd ~/Documents/104-job-tracker
+npm install
+npx playwright install chromium
+```
+
+第一次執行 `npx playwright install chromium` 會下載瀏覽器程式，可能要等一兩分鐘。
+
+### 6-3　建立一組 GitHub Personal Access Token（讓本機腳本可以把資料寫回GitHub）
+
+因為排程現在跑在你自己電腦上，執行完之後要有辦法把結果（`data/jobs.json`）
+寫回 GitHub，這樣你的追蹤網站才看得到最新資料。做法是用一組只有這個 repo
+權限的 Token：
+
+1. GitHub 右上角頭像 → **Settings → Developer settings → Personal access tokens
+   → Fine-grained tokens → Generate new token**。
+2. Repository access 選「Only select repositories」，選 `104-job-tracker`。
+3. Permissions 裡把 **Contents** 設成 **Read and write**。
+4. 產生後複製 Token（只會顯示一次，先存好）。
+
+> 這組 Token 只會存在你自己的電腦裡（下一步的 `secrets.local.json`），
+> 不會被提交到 GitHub，也不會被我看到——這一步請你自己操作、自己貼上。
+
+### 6-4　建立本機專用的設定檔 `secrets.local.json`
+
+在專案資料夾(「袨獹」 把 `secrets.local.example.json` 複製一份改名叫
+`secrets.local.json`，然後打開它，把三個值換成你自己的:
+
+```json
+{
+  "discordWebhookUrl": "你的 Discord Webhook 網址",
+  "githubToken": "你剛剛產生的 GitHub Token",
+  "githubRepo": "LU910324/104-job-tracker"
+}
+```
+
+這個檔案已經被列在 `.gitignore` 裡，不會不小心被提交上去。
+
+### 6-5　手動測試一次
+
+還在 Terminal 裡，執行：
+
+```bash
+npm run check
+```
+
+第一次執行會比較久（要開瀏覽器、還要下載一次職缺資料）。跑完之後：
+
+- 看終端機輸出：有沒有「抓到 N 筆」、有沒有「已透過 GitHub API 把 data/jobs.json
+  更新到倉庫」。
+- 打開你的追蹤網站，看資料是不是真的更新了。
+- 第一次執行 Discord 不會收到通知（除非 `notifyOnFirstRun` 設成 `true`），
+  這是正常的，是在建立基準資料。
+
+如果「抓到 0 筆」或看到「正在執行安全驗證」之類的字樣，這常是網路不穩戆
+104 剛好又調整了防護規則，可以稍等一下重跑一次看看。
+
+### 6-6　安裝排程，讓它以後自動每小時執行
+
+確認 6-5 測試沒問題之後，在 Terminal 裡執行：
+
+```bash
+bash launchd/install.sh
+```
+
+這會把排程設定檔安裝到你 Mac 的「登入項目」系統（launchd），
+之後每小時的第 5 分會自動幫你檢查一次，**電腦只要有開機、有連網就會執行**
+（螢幕鎖住、闔上筆電但沒睡眠都沒關係；如果電腦坡眠或關機，那次排程會跳過，
+下次開機後的整點再繼續）。
+
+之後想確認排程還活著、或者想看執行紀錄：
+
+```bash
+launchctl list | grep 104-job-tracker   # 有出現代表排程正常註冊
+tail -f logs/check.log                  # 即時看執行結果
+```
+
+如果之後想要暫停或移除，`launchd/install.sh` 執行完的提示訊息裡有寫怎麼做。
 
 ---
 
@@ -122,14 +206,19 @@
 1. GitHub 右上角頭像 → **Settings → Developer settings → Personal access tokens
    → Fine-grained tokens → Generate new token**。
 2. Repository access 選「Only select repositories」，選你這個 repo。
-3. Permissions 裡把 **Contents** 設成 **Read and write**，
-   如果也想用網站上的「立即觸發檢查」按鈕，**Actions** 也設成 **Read and write**。
+3. Permissions 裡把 **Contents** 設成 **Read and write**。
 4. 產生後複製 Token（只會顯示一次）。
-5. 到追蹤網站下方「⚙️ 設定」，填入 `owner/repo`（例如 `zack/104-job-tracker`）
+5. 到追蹤網站下方「⚙️ 設定」，填入 `owner/repo`（例如 `LU910324/104-job-tracker`）
    和這組 Token，按「儲存」。
 
 Token 只會存在你瀏覽器的 localStorage，不會被送到除了 GitHub 以外的任何地方。
 如果不想用這個功能，直接照步驟五在 GitHub 網頁上編輯 `config.json` 就好，效果一樣。
+（這組 Token 也可以直接拿去用在步驟六的 `secrets.local.json`，兩邊共用同一組沒問題。）
+
+> 網站上原本還有一個「立即觸發檢查」按鈕，是用來手動觸發 GitHub Actions。
+> 因為 GitHub Actions 現在會被 104 的 Cloudflare 擋不到真的資料，
+> 這個按鈕已經沒有實際用處了——想立刻檢查一次，直接在自己電腦的 Terminal
+> 執行 `npm run check` 即可（見步驟六之 6-5）。
 
 ---
 
@@ -147,7 +236,7 @@ Token 只會存在你瀏覽器的 localStorage，不會被送到除了 GitHub �
 預設每小時一次（`.github/workflows/check-jobs.yml` 裡的 `cron: "5 * * * *"`）。
 GitHub 排程本身可能會有幾分鐘誤差，是正常現象。
 
-**為什麼有些職缺標示「可能已下架」？**
+**為什麼有些職缺訙示「可能已下架」？**
 每次檢查只會看關鍵字搜尋結果的第一頁、或公司目前開放的職缺，如果某筆職缺這次沒有
 再出現（可能是下架了，也可能只是排到比較後面），會保留歷史紀錄但標成非目前可見，
 不會直接刪除。
@@ -158,9 +247,14 @@ GitHub 排程本身可能會有幾分鐘誤差，是正常現象。
 幫忙更新 `scripts/check-jobs.mjs` 裡的選擇器。
 
 **GitHub Actions 的 IP 會不會被 104 擋掉？**
-目前測試是正常的，但不保證長期穩定（一般網站的防爬機制可能隨時調整）。
-如果之後發現排程一直抓不到資料，可以考慮改成在自己電腦上跑（用工作排程器
-本機執行 `node scripts/check-jobs.mjs`），跟我說一聲我可以幫你調整成本機版本。
+會，實測證實了：104 的 Cloudflare 防護幾乎必定會擋下 GitHub Actions 的機房 IP
+（公司頁面直接跳出人機驗證頁面、關鍵字搜尋回傳0筆），所以現在排程改成在自己
+電腦上執行（見步驟六），GitHub Actions 只留著手動測試用。
+
+**電腦沒開機/沒連網的時候排程會怎樣？**
+那個整點的檢查會直接跳過（不會補跑），下一個整點電腦有開著再繼續正常執行。
+如果你常常好幾天不開機，可以考慮把電腦設定成該時段不要睡眠，或改用一台
+一直開著的電腦/Mac mini 之類的機器來跑這個排程。
 
 **費用？**
 GitHub Actions 對 Public repo 完全免費；Private repo 每月有免費額度，
