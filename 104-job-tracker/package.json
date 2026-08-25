@@ -1,0 +1,14 @@
+{
+  "name": "104-job-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "追蹤104人力銀行職缺並透過Discord通知",
+  "type": "module",
+  "scripts": {
+    "check": "node scripts/check-jobs.mjs"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "playwright": "^1.47.0"
+  }
+}

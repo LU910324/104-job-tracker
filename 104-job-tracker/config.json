@@ -1,0 +1,13 @@
+{
+  "keywords": [
+    "後端工程師"
+  ],
+  "companies": [
+    {
+      "name": "範例公司股份有限公司",
+      "id": "1a2x6bmzbo"
+    }
+  ],
+  "maxPagesPerKeyword": 1,
+  "notifyOnFirstRun": false
+}
