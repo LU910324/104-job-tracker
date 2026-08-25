@@ -92,7 +92,16 @@ async function scrapeUrl(page, url, { retries = 1 } = {}) {
         .waitForSelector(".info-container, .info-noresult, .noResult", { timeout: 15000 })
         .catch(() => {});
       await sleep(800 + Math.random() * 700);
-      return await page.evaluate(extractJobsFromPage);
+      const jobs = await page.evaluate(extractJobsFromPage);
+      if (jobs.length === 0) {
+        const debugInfo = await page.evaluate(() => ({
+          title: document.title,
+          bodySnippet: document.body ? document.body.innerText.slice(0, 300) : "(no body)",
+        }));
+        console.log(`  [除錯] 0筆結果，頁面標題：${debugInfo.title}`);
+        console.log(`  [除錯] 頁面內容片段：${debugInfo.bodySnippet.replace(/\n/g, " ")}`);
+      }
+      return jobs;
     } catch (err) {
       console.error(`  抓取失敗 (第 ${attempt + 1} 次): ${url}\n  ${err.message}`);
       if (attempt === retries) return [];
