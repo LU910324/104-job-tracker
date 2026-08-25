@@ -1,0 +1,51 @@
+name: 檢查104新職缺並通知Discord
+
+on:
+  schedule:
+    # 每小時的第 5 分執行一次（UTC 時間；避開整點大量排程擁擠）
+    - cron: "5 * * * *"
+  workflow_dispatch: {} # 讓你可以在 Actions 頁面手動按「Run workflow」測試
+
+permissions:
+  contents: write
+
+concurrency:
+  group: check-jobs
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: 簽出程式碼
+        uses: actions/checkout@v4
+
+      - name: 設定 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: 安裝套件
+        run: npm ci
+
+      - name: 安裝 Playwright 瀏覽器
+        run: npx playwright install --with-deps chromium
+
+      - name: 執行職缺檢查
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: npm run check
+
+      - name: 提交更新後的職缺資料
+        run: |
+          git config user.name "104-job-tracker-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if ! git diff --quiet -- data/jobs.json; then
+            git add data/jobs.json
+            git commit -m "更新職缺資料 $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git push
+          else
+            echo "資料沒有變化，不需要提交"
+          fi
