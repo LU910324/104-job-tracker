@@ -16,6 +16,26 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const CONFIG_PATH = path.join(ROOT, "config.json");
 const JOBS_PATH = path.join(ROOT, "data", "jobs.json");
+const SECRETS_PATH = path.join(ROOT, "secrets.local.json");
+
+// 如果在自己電腦上執行（而不是 GitHub Actions），會讀取這個本機專用的
+// secrets.local.json 檔案來取得 Discord Webhook 網址。這個檔案已經被加進
+// .gitignore，不會被提交到 GitHub，內容只留在你自己的電腦上。
+// GitHub Actions 執行時是用 Secrets 設定環境變數，不會用到這個檔案，
+// 所以已經有環境變數的話，這裡不會覆蓋它。
+async function loadLocalSecretsIntoEnv() {
+  const secrets = await loadJson(SECRETS_PATH, null);
+  if (!secrets) return;
+  if (!process.env.DISCORD_WEBHOOK_URL && secrets.discordWebhookUrl) {
+    process.env.DISCORD_WEBHOOK_URL = secrets.discordWebhookUrl;
+  }
+  if (!process.env.GITHUB_TOKEN && secrets.githubToken) {
+    process.env.GITHUB_TOKEN = secrets.githubToken;
+  }
+  if (!process.env.GITHUB_REPO && secrets.githubRepo) {
+    process.env.GITHUB_REPO = secrets.githubRepo;
+  }
+}
 
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
@@ -151,7 +171,64 @@ async function sendDiscordNotification(webhookUrl, jobs) {
   }
 }
 
+// 在自己電腦上執行時，把最新的 data/jobs.json 直接透過 GitHub API 寫回
+// GitHub 倉庫，這樣追蹤網站（GitHub Pages）才看得到新資料。
+// 這個函式只有在有設定 GITHUB_TOKEN + GITHUB_REPO 時才會執行（也就是
+// 本機 secrets.local.json 裡有填的時候）；在 GitHub Actions 上執行時
+// 這兩個環境變數不會被設定，資料改用 workflow 裡的 git commit/push 處理，
+// 不會重複動作。
+async function pushJobsJsonToGithub(jobsJsonText) {
+  const token = process.env.GITHUB_TOKEN;
+  const repo = process.env.GITHUB_REPO; // 格式："owner/repo"
+  if (!token || !repo) return;
+
+  const apiUrl = `https://api.github.com/repos/${repo}/contents/data/jobs.json`;
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    Accept: "application/vnd.github+json",
+    "Content-Type": "application/json",
+  };
+
+  let sha;
+  try {
+    const getRes = await fetch(apiUrl, { headers });
+    if (getRes.ok) {
+      const info = await getRes.json();
+      sha = info.sha;
+    } else if (getRes.status !== 404) {
+      const text = await getRes.text().catch(() => "");
+      throw new Error(`讀取現有檔案失敗 ${getRes.status}: ${text}`);
+    }
+  } catch (err) {
+    console.error("查詢 GitHub 上 data/jobs.json 目前版本失敗：", err.message);
+    return;
+  }
+
+  const body = {
+    message: `更新職缺資料（本機排程）`,
+    content: Buffer.from(jobsJsonText, "utf8").toString("base64"),
+    branch: "main",
+  };
+  if (sha) body.sha = sha;
+
+  try {
+    const putRes = await fetch(apiUrl, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify(body),
+    });
+    if (!putRes.ok) {
+      const text = await putRes.text().catch(() => "");
+      throw new Error(`寫入失敗 ${putRes.status}: ${text}`);
+    }
+    console.log("已透過 GitHub API 把 data/jobs.json 更新到倉庫。");
+  } catch (err) {
+    console.error("推送 data/jobs.json 到 GitHub 失敗：", err.message);
+  }
+}
+
 async function main() {
+  await loadLocalSecretsIntoEnv();
   const config = await loadJson(CONFIG_PATH, { keywords: [], companies: [] });
   const existing = await loadJson(JOBS_PATH, { lastUpdated: null, jobs: [] });
 
@@ -259,11 +336,8 @@ async function main() {
 
   finalJobs.sort((a, b) => new Date(b.firstSeen) - new Date(a.firstSeen));
 
-  await writeFile(
-    JOBS_PATH,
-    JSON.stringify({ lastUpdated: now, jobs: finalJobs }, null, 2) + "\n",
-    "utf8"
-  );
+  let jobsJsonText = JSON.stringify({ lastUpdated: now, jobs: finalJobs }, null, 2) + "\n";
+  await writeFile(JOBS_PATH, jobsJsonText, "utf8");
 
   console.log(`本次共 ${currentMap.size} 筆目前可見職缺，其中新職缺 ${newJobsToNotify.length} 筆。`);
 
@@ -291,12 +365,13 @@ async function main() {
     for (const job of finalJobs) {
       if (notifiedIds.has(job.id)) job.notified = notifySucceeded;
     }
-    await writeFile(
-      JOBS_PATH,
-      JSON.stringify({ lastUpdated: now, jobs: finalJobs }, null, 2) + "\n",
-      "utf8"
-    );
+    jobsJsonText = JSON.stringify({ lastUpdated: now, jobs: finalJobs }, null, 2) + "\n";
+    await writeFile(JOBS_PATH, jobsJsonText, "utf8");
   }
+
+  // 本機執行時（有設定 GITHUB_TOKEN/GITHUB_REPO）把最新資料同步回 GitHub，
+  // 讓追蹤網站看得到；GitHub Actions 上執行則交給 workflow 的 git push 處理。
+  await pushJobsJsonToGithub(jobsJsonText);
 }
 
 main().catch((err) => {
