@@ -92,6 +92,23 @@
   .sources { font-size: 0.78rem; color: var(--text-dim); }
   .badge-inactive { color: var(--inactive); font-size: 0.78rem; }
 
+  .ai-row { display: flex; align-items: flex-start; gap: 8px; margin-top: 8px; padding: 8px 10px; border-radius: 8px; background: var(--bg); font-size: 0.82rem; }
+  .ai-score-pill {
+    flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
+    min-width: 40px; padding: 2px 8px; border-radius: 999px; font-weight: 700; font-size: 0.78rem; color: #fff;
+  }
+  .ai-score-pill.good { background: #2e7d32; }
+  .ai-score-pill.mid { background: #d08a1e; }
+  .ai-score-pill.low { background: #b5473a; }
+  .ai-reasoning { color: var(--text-dim); }
+  .scam-warning {
+    margin-top: 8px; padding: 8px 10px; border-radius: 8px;
+    background: #fdecea; color: #a13a2f; font-size: 0.82rem; font-weight: 600;
+  }
+  @media (prefers-color-scheme: dark) {
+    .scam-warning { background: #4a2320; color: #ff9d8f; }
+  }
+
   details.settings {
     margin-top: 28px;
     border: 1px solid var(--border);
@@ -275,6 +292,22 @@
           (s) => `<option value="${s}" ${s === status ? "selected" : ""}>${s}</option>`
         ).join("");
         const sources = (job.matchedSources || []).map((s) => `<span class="tag">${escapeHtml(s)}</span>`).join(" ");
+
+        let aiRowHtml = "";
+        if (typeof job.aiScore === "number") {
+          const scoreClass = job.aiScore >= 4 ? "good" : job.aiScore >= 2.5 ? "mid" : "low";
+          aiRowHtml = `
+            <div class="ai-row">
+              <span class="ai-score-pill ${scoreClass}">${job.aiScore} / 5</span>
+              <span class="ai-reasoning">${escapeHtml(job.aiReasoning || "")}</span>
+            </div>
+          `;
+        }
+        let scamHtml = "";
+        if (job.aiScam) {
+          scamHtml = `<div class="scam-warning">⚠️ AI 判斷疑似詐騙／幽靈職缺：${escapeHtml(job.aiScamReason || "請自行斟酌，多加留意。")}</div>`;
+        }
+
         return `
           <div class="job ${job.isActive === false ? "inactive" : ""}" data-id="${escapeAttr(job.id)}">
             <div class="job-top">
@@ -289,6 +322,8 @@
               ${job.salary ? `<span>${escapeHtml(job.salary)}</span>` : ""}
               ${job.experience ? `<span>${escapeHtml(job.experience)}</span>` : ""}
             </div>
+            ${aiRowHtml}
+            ${scamHtml}
             <div class="job-bottom">
               <div class="sources">${sources}</div>
               <select class="status-select">${options}</select>

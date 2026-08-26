@@ -171,15 +171,19 @@ npx playwright install chromium
 ### 6-4　建立本機專用的設定檔 `secrets.local.json`
 
 在專案資料夾裡，把 `secrets.local.example.json` 複製一份改名叫
-`secrets.local.json`，然後打開它，把三個值換成你自己的：
+`secrets.local.json`，然後打開它，把值換成你自己的：
 
 ```json
 {
   "discordWebhookUrl": "你的 Discord Webhook 網址",
   "githubToken": "你剛剛產生的 GitHub Token",
-  "githubRepo": "LU910324/104-job-tracker"
+  "githubRepo": "LU910324/104-job-tracker",
+  "anthropicApiKey": ""
 }
 ```
+
+前三個是必填。`anthropicApiKey` 是**選填**的，只有想開啟「AI 職缺評分」功能
+（步驟七）才需要填，留空或整行刪掉都沒關係，其他功能不受影響。
 
 這個檔案已經被列在 `.gitignore` 裡，不會不小心被提交上去。
 
@@ -247,6 +251,81 @@ tail -f logs/check.log                  # 即時看執行結果
 
 ---
 
+## 步驟七：設定 AI 職缺評分（選填，不設定也完全沒問題）
+
+這個功能會在每次抓到「全新」職缺時，把職缺內容送給 AI（Anthropic 的 Claude），
+請它依照你的背景和條件，幫這筆職缺打 1-5 分適合度分數、寫一句簡短理由，
+並且順便判斷是不是疑似詐騙／幽靈職缺，一起顯示在 Discord 通知和追蹤網站上。
+
+**完全選填**：不想用的話，這一步整段跳過即可，`profile.local.json` 不建立、
+`secrets.local.json` 裡 `anthropicApiKey` 留空，程式會自動偵測到沒開這個功能，
+其他所有功能（抓職缺、發通知、追蹤網站）都照舊正常運作。
+
+### 7-1　建立本機專用的個人條件設定檔 `profile.local.json`
+
+在專案資料夾裡，把 `profile.local.example.json` 複製一份改名叫
+`profile.local.json`，然後打開它，填入你自己的背景和條件：
+
+```json
+{
+  "skills": "平面設計、視覺設計、品牌識別、包裝設計、網頁視覺設計",
+  "experience": "口口廣告有限公司 平面設計師（2025.03–2025.10）；醫淬思股份有限公司 品牌／視覺設計（2025.11–2026.03）",
+  "targetRoles": "平面設計、視覺設計、專案經理",
+  "minSalary": 38000,
+  "locationPreference": "桃園優先，其次台北、新北",
+  "dealbreakers": "不接受需要輪班的工作",
+  "anthropicModel": "claude-haiku-4-5-20251001"
+}
+```
+
+- **skills**：你會的技能、專長，用逗號或頓號隔開即可，不用寫得很正式。
+- **experience**：過去工作經歷簡述，讓 AI 判斷職缺跟你經歷的相關程度。
+- **targetRoles**：你想找的職稱／方向，跟 `config.json` 的 `keywords` 可以不一樣
+  （`keywords` 是拿去 104 搜尋用的字，`targetRoles` 是講給 AI 聽你真正想要什麼）。
+- **minSalary**：可接受的最低月薪（數字，單位新台幣），職缺明顯低於這個數字，
+  AI 會在評分時扣分。
+- **locationPreference**：地點偏好，可以直接用中文描述優先順序（例如「A優先，其次B」）。
+- **dealbreakers**：絕對不考慮的條件（例如需要輪班、需要業績獎金制、需要出差等），
+  用一句話描述就好，AI 遇到符合這些條件的職缺會直接大扣分。
+- **anthropicModel**：呼叫哪個 AI 模型，預設 `claude-haiku-4-5-20251001`
+  （速度快、成本最低，適合這種大量小任務），不熟悉的話不用改。
+
+這個檔案內容只有你自己看得到，已經被列在 `.gitignore` 裡，**不會被提交到 GitHub**。
+
+### 7-2　取得 Anthropic API Key
+
+1. 到 https://console.anthropic.com 註冊/登入帳號。
+2. 左側選單找到 **API Keys**，按「Create Key」，複製產生的 Key
+   （長得像 `sk-ant-api03-...`，只會完整顯示一次，先存好）。
+3. 這組 Key 需要你自己在 Anthropic 帳號裡儲值/綁定付款方式才能實際呼叫 API——
+   跟 Claude.ai 網頁版或 App 的訂閱是**分開計費**的兩件事，訂閱 Claude Pro
+   不代表這組 API Key 有額度。
+4. 費用非常低：用預設的 `claude-haiku-4-5-20251001` 模型，每筆職缺評分大約
+   台幣不到一毛錢（只會對「新職缺」評分一次，不會每次執行都重複算舊職缺），
+   一般使用量一個月大概幾塊到十幾塊台幣的等級，可以到 console 的 Usage 頁面
+   自己確認實際花費。
+
+> 這組 Key 我一樣不會幫你輸入，你自己複製貼到設定檔即可（見下一步）。
+
+### 7-3　把 Key 填進 `secrets.local.json`
+
+打開步驟 6-4 建立好的 `secrets.local.json`，把 `anthropicApiKey` 的值換成
+你剛剛複製的 Key：
+
+```json
+{
+  "discordWebhookUrl": "...",
+  "githubToken": "...",
+  "githubRepo": "LU910324/104-job-tracker",
+  "anthropicApiKey": "sk-ant-api03-你的Key"
+}
+```
+
+存檔之後，下一次 `npm run check`（不管是手動執行還是排程自動執行）就會
+自動幫新出現的職缺打分數，不需要重開機或重新安裝排程。
+
+---
+
 ## 網站上直接編輯設定（進階，非必要）
 
 追蹤網站本身是靜態網頁，沒辦法自己寫檔案，所以「在網站上新增關鍵字/公司」
@@ -307,4 +386,10 @@ GitHub 排程本身可能會有幾分鐘誤差，是正常現象。
 
 **費用？**
 GitHub Actions 對 Public repo 完全免費；Private repo 每月有免費額度，
-一小時跑 2-3 分鐘、一天 24 次的用量遠低於免費額度。
+一小時跑 2-3 分鐘、一天 24 次的用量遠低於免費額度。如果有另外設定步驟七的
+AI 職缺評分，會額外產生 Anthropic API 的呼叫費用（見步驟七 7-2 說明），
+但這功能完全選填，不設定就不會有這筆費用。
+
+**AI 評分是必要的嗎？沒設定會怎樣？**
+完全選填。沒有建立 `profile.local.json` 或沒填 `anthropicApiKey`，
+程式會自動偵測到沒開啟這個功能，直接略過評分，其他功能完全不受影響。

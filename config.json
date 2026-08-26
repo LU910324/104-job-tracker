@@ -1,13 +1,10 @@
 {
   "keywords": [
-    "後端工程師"
+    "平面設計",
+    "視覺設計",
+    "專案經理"
   ],
-  "companies": [
-    {
-      "name": "範例公司股份有限公司",
-      "id": "1a2x6bmzbo"
-    }
-  ],
+  "companies": [],
   "maxPagesPerKeyword": 1,
   "notifyOnFirstRun": false
 }
