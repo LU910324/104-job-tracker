@@ -355,6 +355,39 @@ async function pushJobsJsonToGithub(jobsJsonText) {
   }
 }
 
+// 無頭（headless，背景執行、看不到視窗）的瀏覽器模式在某些網路環境下，
+// 特徵比較容易被 Cloudflare 這類防護機制認出來、直接擋下。這裡改成優先
+// 嘗試用電腦上真正安裝的 Chrome、以「有畫面」(headless: false) 的方式開啟，
+// 看起來更像真人在操作，比較不容易被擋。如果這台電腦沒裝 Chrome（找不到
+// channel: "chrome"），才退回用 Playwright 內建的 Chromium，一樣先試有畫面
+// 模式，最後才退回原本的無頭模式，確保無論如何都能繼續執行。
+async function launchBrowser() {
+  const attempts = [
+    { channel: "chrome", headless: false },
+    { headless: false },
+    { headless: true },
+  ];
+
+  let lastError;
+  for (const opts of attempts) {
+    try {
+      const browser = await chromium.launch({
+        ...opts,
+        args: ["--disable-blink-features=AutomationControlled"],
+      });
+      console.log(
+        `瀏覽器啟動方式：${opts.channel ? "系統 Chrome" : "Playwright 內建 Chromium"}，${
+          opts.headless ? "無畫面模式" : "有畫面模式"
+        }`
+      );
+      return browser;
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  throw lastError;
+}
+
 async function main() {
   await loadLocalSecretsIntoEnv();
   const config = await loadJson(CONFIG_PATH, { keywords: [], companies: [] });
@@ -369,9 +402,7 @@ async function main() {
   const isFirstRun = existingMap.size === 0;
   const notifyOnFirstRun = config.notifyOnFirstRun === true;
 
-  const browser = await chromium.launch({
-    args: ["--disable-blink-features=AutomationControlled"],
-  });
+  const browser = await launchBrowser();
   const context = await browser.newContext({
     userAgent: USER_AGENT,
     locale: "zh-TW",
