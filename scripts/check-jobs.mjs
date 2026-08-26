@@ -190,7 +190,20 @@ function extractJobsFromPage() {
   return results;
 }
 
-async function scrapeUrl(page, url, { retries = 1 } = {}) {
+// 判斷目前頁面是不是 Cloudflare 的「正在執行安全驗證」機器人偵測頁，
+// 而不是 104 真的回傳 0 筆結果。兩種情況畫面上都可能看起來很像空白，
+// 但意義完全不同：前者是暫時被擋，後者是搜尋條件真的沒有符合的職缺。
+function isCloudflareChallenge(bodySnippet, title) {
+  const haystack = `${title} ${bodySnippet}`;
+  return (
+    haystack.includes("正在執行安全驗證") ||
+    haystack.includes("cf-browser-verification") ||
+    haystack.includes("Just a moment") ||
+    haystack.includes("Checking your browser")
+  );
+}
+
+async function scrapeUrl(page, url, { retries = 2 } = {}) {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
       await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
@@ -205,8 +218,20 @@ async function scrapeUrl(page, url, { retries = 1 } = {}) {
           title: document.title,
           bodySnippet: document.body ? document.body.innerText.slice(0, 300) : "(no body)",
         }));
-        console.log(`  [除錯] 0筆結果，頁面標題：${debugInfo.title}`);
+        const blocked = isCloudflareChallenge(debugInfo.bodySnippet, debugInfo.title);
+        console.log(
+          `  [除錯] 0筆結果${blocked ? "（疑似被 Cloudflare 安全驗證擋下）" : ""}，頁面標題：${debugInfo.title}`
+        );
         console.log(`  [除錯] 頁面內容片段：${debugInfo.bodySnippet.replace(/\n/g, " ")}`);
+
+        // 疑似被 Cloudflare 擋下（不是真的 0 筆），值得多等久一點再重試，
+        // 太快重試只會讓防護機制更確信這是機器人。
+        if (blocked && attempt < retries) {
+          const waitSec = 15 + Math.random() * 15;
+          console.log(`  等待約 ${Math.round(waitSec)} 秒後重試...`);
+          await sleep(waitSec * 1000);
+          continue;
+        }
       }
       return jobs;
     } catch (err) {
@@ -367,7 +392,20 @@ async function main() {
     }
   }
 
+  let isFirstRequest = true;
+  // 每個關鍵字/公司之間都間隔幾秒再送下一個請求，避免短時間內連續打太多次，
+  // 被 Cloudflare 判斷成機器人行為（真人搜尋不會零延遲連續點好幾個搜尋）。
+  async function pauseBetweenRequests() {
+    if (isFirstRequest) {
+      isFirstRequest = false;
+      return;
+    }
+    const waitSec = 4 + Math.random() * 5;
+    await sleep(waitSec * 1000);
+  }
+
   for (const keyword of config.keywords || []) {
+    await pauseBetweenRequests();
     console.log(`搜尋關鍵字：${keyword}`);
     const url = `https://www.104.com.tw/jobs/search/?keyword=${encodeURIComponent(
       keyword
@@ -379,6 +417,7 @@ async function main() {
 
   for (const company of config.companies || []) {
     if (!company.id) continue;
+    await pauseBetweenRequests();
     console.log(`檢查公司：${company.name || company.id}`);
     const url = `https://www.104.com.tw/company/${company.id}`;
     const jobs = await scrapeUrl(page, url);
