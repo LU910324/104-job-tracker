@@ -1,23 +1,143 @@
 {
-  "lastUpdated": "2026-08-26T10:05:21.824Z",
+  "lastUpdated": "2026-08-26T11:05:21.831Z",
   "jobs": [
     {
-      "id": "8x0dm",
-      "title": "動態攝影師（可遠端工作）",
-      "url": "https://www.104.com.tw/job/8x0dm",
-      "company": "美商女力股份有限公司台灣分公司",
-      "companyUrl": "https://www.104.com.tw/company/1a2x6bnm44",
-      "location": "台北市北投區",
-      "experience": "經歷不拘",
-      "education": "大學",
-      "salary": "月薪45,000~65,000元",
-      "date": "",
+      "id": "90lgj",
+      "title": "平面設計師",
+      "url": "https://www.104.com.tw/job/90lgj",
+      "company": "統亞電子科技股份有限公司",
+      "companyUrl": "https://www.104.com.tw/company/aoak7tk",
+      "location": "台南市安南區",
+      "experience": "2年以上",
+      "education": "專科",
+      "salary": "月薪36,000~55,000元",
+      "date": "8/26",
       "matchedSources": [
         "關鍵字:平面設計"
       ],
       "status": "未讀",
-      "firstSeen": "2026-08-26T10:05:21.824Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "firstSeen": "2026-08-26T11:05:21.831Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
+      "isActive": true,
+      "notified": true
+    },
+    {
+      "id": "7cnjq",
+      "title": "室內設計師",
+      "url": "https://www.104.com.tw/job/7cnjq",
+      "company": "沄翌室內裝修設計有限公司",
+      "companyUrl": "https://www.104.com.tw/company/1a2x6blp8a",
+      "location": "台北市松山區",
+      "experience": "經歷不拘",
+      "education": "專科",
+      "salary": "月薪42,000元以上",
+      "date": "",
+      "matchedSources": [
+        "關鍵字:視覺設計"
+      ],
+      "status": "未讀",
+      "firstSeen": "2026-08-26T11:05:21.831Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
+      "isActive": true,
+      "notified": true
+    },
+    {
+      "id": "94i5n",
+      "title": "美編",
+      "url": "https://www.104.com.tw/job/94i5n",
+      "company": "裕益製藥有限公司",
+      "companyUrl": "https://www.104.com.tw/company/1a2x6bl3co",
+      "location": "雲林縣斗南鎮",
+      "experience": "經歷不拘",
+      "education": "專科",
+      "salary": "月薪33,000~34,000元",
+      "date": "",
+      "matchedSources": [
+        "關鍵字:視覺設計"
+      ],
+      "status": "未讀",
+      "firstSeen": "2026-08-26T11:05:21.831Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
+      "isActive": true,
+      "notified": true
+    },
+    {
+      "id": "8bsbf",
+      "title": "【全地產】代銷專案經理｜AI 數位賦能｜定義代銷新規格｜拒絕傳統土法煉鋼",
+      "url": "https://www.104.com.tw/job/8bsbf",
+      "company": "全地產股份有限公司",
+      "companyUrl": "https://www.104.com.tw/company/1a2x6bmxc4",
+      "location": "台北市中山區",
+      "experience": "5年以上",
+      "education": "專科",
+      "salary": "待遇面議",
+      "date": "",
+      "matchedSources": [
+        "關鍵字:專案經理"
+      ],
+      "status": "未讀",
+      "firstSeen": "2026-08-26T11:05:21.831Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
+      "isActive": true,
+      "notified": true
+    },
+    {
+      "id": "8ycug",
+      "title": "PM 專案經理 / Project Manager《企劃部》【台北事業處】",
+      "url": "https://www.104.com.tw/job/8ycug",
+      "company": "千享國際企業股份有限公司",
+      "companyUrl": "https://www.104.com.tw/company/1a2x6bm023",
+      "location": "台北市大安區",
+      "experience": "2年以上",
+      "education": "大學",
+      "salary": "年薪750,000元以上",
+      "date": "",
+      "matchedSources": [
+        "關鍵字:專案經理"
+      ],
+      "status": "未讀",
+      "firstSeen": "2026-08-26T11:05:21.831Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
+      "isActive": true,
+      "notified": true
+    },
+    {
+      "id": "950pf",
+      "title": "項目專案經理 Project Manager (台北)",
+      "url": "https://www.104.com.tw/job/950pf",
+      "company": "中南創發股份有限公司",
+      "companyUrl": "https://www.104.com.tw/company/oecrfps",
+      "location": "台北市內湖區",
+      "experience": "經歷不拘",
+      "education": "大學",
+      "salary": "待遇面議",
+      "date": "8/26",
+      "matchedSources": [
+        "關鍵字:專案經理"
+      ],
+      "status": "未讀",
+      "firstSeen": "2026-08-26T11:05:21.831Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
+      "isActive": true,
+      "notified": true
+    },
+    {
+      "id": "8rada",
+      "title": "專案經理｜企劃人員",
+      "url": "https://www.104.com.tw/job/8rada",
+      "company": "漉映影像有限公司",
+      "companyUrl": "https://www.104.com.tw/company/1a2x6bnft2",
+      "location": "台北市大安區",
+      "experience": "經歷不拘",
+      "education": "學歷不拘",
+      "salary": "月薪32,000~50,000元",
+      "date": "8/26",
+      "matchedSources": [
+        "關鍵字:專案經理"
+      ],
+      "status": "未讀",
+      "firstSeen": "2026-08-26T11:05:21.831Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": true
     },
@@ -37,7 +157,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T10:05:21.824Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": true
     },
@@ -57,67 +177,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T10:05:21.824Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
-      "isActive": true,
-      "notified": true
-    },
-    {
-      "id": "8ro2n",
-      "title": "影音編輯",
-      "url": "https://www.104.com.tw/job/8ro2n",
-      "company": "Klatch Hair salon_客來企有限公司",
-      "companyUrl": "https://www.104.com.tw/company/1a2x6bng9u",
-      "location": "台北市信義區",
-      "experience": "經歷不拘",
-      "education": "專科",
-      "salary": "月薪50,000元",
-      "date": "",
-      "matchedSources": [
-        "關鍵字:視覺設計"
-      ],
-      "status": "未讀",
-      "firstSeen": "2026-08-26T10:05:21.824Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
-      "isActive": true,
-      "notified": true
-    },
-    {
-      "id": "953ky",
-      "title": "【TPOC】政府標案整合行銷專案經理",
-      "url": "https://www.104.com.tw/job/953ky",
-      "company": "影響力數據顧問股份有限公司",
-      "companyUrl": "https://www.104.com.tw/company/1a2x6bl7o5",
-      "location": "台北市松山區",
-      "experience": "3年以上",
-      "education": "大學",
-      "salary": "月薪42,000~60,000元",
-      "date": "",
-      "matchedSources": [
-        "關鍵字:專案經理"
-      ],
-      "status": "未讀",
-      "firstSeen": "2026-08-26T10:05:21.824Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
-      "isActive": true,
-      "notified": true
-    },
-    {
-      "id": "91ry8",
-      "title": "專案經理",
-      "url": "https://www.104.com.tw/job/91ry8",
-      "company": "薩摩亞商偉傑企業有限公司台灣分公司",
-      "companyUrl": "https://www.104.com.tw/company/1a2x6bm26c",
-      "location": "新北市淡水區",
-      "experience": "經歷不拘",
-      "education": "專科",
-      "salary": "月薪50,000~80,000元",
-      "date": "",
-      "matchedSources": [
-        "關鍵字:專案經理"
-      ],
-      "status": "未讀",
-      "firstSeen": "2026-08-26T10:05:21.824Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": true
     },
@@ -137,8 +197,88 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T10:05:21.824Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
+      "notified": true
+    },
+    {
+      "id": "8x0dm",
+      "title": "動態攝影師（可遠端工作）",
+      "url": "https://www.104.com.tw/job/8x0dm",
+      "company": "美商女力股份有限公司台灣分公司",
+      "companyUrl": "https://www.104.com.tw/company/1a2x6bnm44",
+      "location": "台北市北投區",
+      "experience": "經歷不拘",
+      "education": "大學",
+      "salary": "月薪45,000~65,000元",
+      "date": "",
+      "matchedSources": [
+        "關鍵字:平面設計"
+      ],
+      "status": "未讀",
+      "firstSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "isActive": false,
+      "notified": true
+    },
+    {
+      "id": "8ro2n",
+      "title": "影音編輯",
+      "url": "https://www.104.com.tw/job/8ro2n",
+      "company": "Klatch Hair salon_客來企有限公司",
+      "companyUrl": "https://www.104.com.tw/company/1a2x6bng9u",
+      "location": "台北市信義區",
+      "experience": "經歷不拘",
+      "education": "專科",
+      "salary": "月薪50,000元",
+      "date": "",
+      "matchedSources": [
+        "關鍵字:視覺設計"
+      ],
+      "status": "未讀",
+      "firstSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "isActive": false,
+      "notified": true
+    },
+    {
+      "id": "953ky",
+      "title": "【TPOC】政府標案整合行銷專案經理",
+      "url": "https://www.104.com.tw/job/953ky",
+      "company": "影響力數據顧問股份有限公司",
+      "companyUrl": "https://www.104.com.tw/company/1a2x6bl7o5",
+      "location": "台北市松山區",
+      "experience": "3年以上",
+      "education": "大學",
+      "salary": "月薪42,000~60,000元",
+      "date": "",
+      "matchedSources": [
+        "關鍵字:專案經理"
+      ],
+      "status": "未讀",
+      "firstSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "isActive": false,
+      "notified": true
+    },
+    {
+      "id": "91ry8",
+      "title": "專案經理",
+      "url": "https://www.104.com.tw/job/91ry8",
+      "company": "薩摩亞商偉傑企業有限公司台灣分公司",
+      "companyUrl": "https://www.104.com.tw/company/1a2x6bm26c",
+      "location": "新北市淡水區",
+      "experience": "經歷不拘",
+      "education": "專科",
+      "salary": "月薪50,000~80,000元",
+      "date": "",
+      "matchedSources": [
+        "關鍵字:專案經理"
+      ],
+      "status": "未讀",
+      "firstSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "isActive": false,
       "notified": true
     },
     {
@@ -158,6 +298,26 @@
       "status": "未讀",
       "firstSeen": "2026-08-26T10:05:21.824Z",
       "lastSeen": "2026-08-26T10:05:21.824Z",
+      "isActive": false,
+      "notified": true
+    },
+    {
+      "id": "75aoy",
+      "title": "【電商】平面設計師",
+      "url": "https://www.104.com.tw/job/75aoy",
+      "company": "原木香商行",
+      "companyUrl": "https://www.104.com.tw/company/1a2x6bku13",
+      "location": "彰化縣彰化市",
+      "experience": "經歷不拘",
+      "education": "專科",
+      "salary": "月薪35,000~50,000元",
+      "date": "",
+      "matchedSources": [
+        "關鍵字:平面設計"
+      ],
+      "status": "未讀",
+      "firstSeen": "2026-08-26T09:05:24.459Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": true
     },
@@ -177,7 +337,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T09:05:24.459Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": true
     },
@@ -197,7 +357,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T09:05:24.459Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": true
     },
@@ -217,7 +377,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T09:05:24.459Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": true
     },
@@ -237,7 +397,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T09:05:24.459Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": true
     },
@@ -257,7 +417,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T09:05:24.459Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": true
     },
@@ -277,7 +437,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T09:05:24.459Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": true
     },
@@ -291,26 +451,6 @@
       "experience": "3年以上",
       "education": "專科",
       "salary": "待遇面議",
-      "date": "",
-      "matchedSources": [
-        "關鍵字:平面設計"
-      ],
-      "status": "未讀",
-      "firstSeen": "2026-08-26T09:05:24.459Z",
-      "lastSeen": "2026-08-26T09:05:24.459Z",
-      "isActive": false,
-      "notified": true
-    },
-    {
-      "id": "75aoy",
-      "title": "【電商】平面設計師",
-      "url": "https://www.104.com.tw/job/75aoy",
-      "company": "原木香商行",
-      "companyUrl": "https://www.104.com.tw/company/1a2x6bku13",
-      "location": "彰化縣彰化市",
-      "experience": "經歷不拘",
-      "education": "專科",
-      "salary": "月薪35,000~50,000元",
       "date": "",
       "matchedSources": [
         "關鍵字:平面設計"
@@ -373,11 +513,12 @@
       "salary": "月薪34,000元以上",
       "date": "",
       "matchedSources": [
-        "關鍵字:視覺設計"
+        "關鍵字:視覺設計",
+        "關鍵字:平面設計"
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T08:00:54.544Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": true
     },
@@ -397,7 +538,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T08:00:54.544Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": true
     },
@@ -417,7 +558,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T08:00:54.544Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": true
     },
@@ -502,27 +643,6 @@
       "notified": true
     },
     {
-      "id": "9521v",
-      "title": "美編設計",
-      "url": "https://www.104.com.tw/job/9521v",
-      "company": "笙祐數位影像有限公司",
-      "companyUrl": "https://www.104.com.tw/company/d09ymzc",
-      "location": "新北市新莊區",
-      "experience": "經歷不拘",
-      "education": "高中以下",
-      "salary": "月薪32,000元以上",
-      "date": "",
-      "matchedSources": [
-        "關鍵字:平面設計",
-        "關鍵字:視覺設計"
-      ],
-      "status": "未讀",
-      "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
-      "isActive": true,
-      "notified": false
-    },
-    {
       "id": "8r306",
       "title": "平面設計",
       "url": "https://www.104.com.tw/job/8r306",
@@ -538,7 +658,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -558,7 +678,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -578,7 +698,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -598,7 +718,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -618,7 +738,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -638,7 +758,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -658,7 +778,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -678,7 +798,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -698,7 +818,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -718,7 +838,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -738,7 +858,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -758,7 +878,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -778,7 +898,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -798,7 +918,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -819,7 +939,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -839,27 +959,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
-      "isActive": true,
-      "notified": false
-    },
-    {
-      "id": "8zzrh",
-      "title": "平面設計師",
-      "url": "https://www.104.com.tw/job/8zzrh",
-      "company": "Nawies_耐唯思國際有限公司",
-      "companyUrl": "https://www.104.com.tw/company/1a2x6bmb96",
-      "location": "台中市北屯區",
-      "experience": "1年以上",
-      "education": "高中",
-      "salary": "月薪35,000~38,000元",
-      "date": "8/26",
-      "matchedSources": [
-        "關鍵字:平面設計"
-      ],
-      "status": "未讀",
-      "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -879,7 +979,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -899,7 +999,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -919,7 +1019,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -939,7 +1039,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -959,7 +1059,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -979,7 +1079,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -999,7 +1099,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1019,7 +1119,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1039,7 +1139,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1059,7 +1159,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1079,7 +1179,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1099,7 +1199,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1119,7 +1219,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1139,7 +1239,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1159,7 +1259,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1179,7 +1279,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1199,7 +1299,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1219,7 +1319,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1239,7 +1339,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1259,7 +1359,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1279,7 +1379,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1299,7 +1399,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1319,7 +1419,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1339,7 +1439,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1359,7 +1459,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1379,7 +1479,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1399,7 +1499,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1419,7 +1519,7 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
       "notified": false
     },
@@ -1439,8 +1539,49 @@
       ],
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
-      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "lastSeen": "2026-08-26T11:05:21.831Z",
       "isActive": true,
+      "notified": false
+    },
+    {
+      "id": "9521v",
+      "title": "美編設計",
+      "url": "https://www.104.com.tw/job/9521v",
+      "company": "笙祐數位影像有限公司",
+      "companyUrl": "https://www.104.com.tw/company/d09ymzc",
+      "location": "新北市新莊區",
+      "experience": "經歷不拘",
+      "education": "高中以下",
+      "salary": "月薪32,000元以上",
+      "date": "",
+      "matchedSources": [
+        "關鍵字:平面設計",
+        "關鍵字:視覺設計"
+      ],
+      "status": "未讀",
+      "firstSeen": "2026-08-26T07:25:49.882Z",
+      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "isActive": false,
+      "notified": false
+    },
+    {
+      "id": "8zzrh",
+      "title": "平面設計師",
+      "url": "https://www.104.com.tw/job/8zzrh",
+      "company": "Nawies_耐唯思國際有限公司",
+      "companyUrl": "https://www.104.com.tw/company/1a2x6bmb96",
+      "location": "台中市北屯區",
+      "experience": "1年以上",
+      "education": "高中",
+      "salary": "月薪35,000~38,000元",
+      "date": "8/26",
+      "matchedSources": [
+        "關鍵字:平面設計"
+      ],
+      "status": "未讀",
+      "firstSeen": "2026-08-26T07:25:49.882Z",
+      "lastSeen": "2026-08-26T10:05:21.824Z",
+      "isActive": false,
       "notified": false
     },
     {
@@ -1460,7 +1601,7 @@
       "status": "未讀",
       "firstSeen": "2026-08-26T07:25:49.882Z",
       "lastSeen": "2026-08-26T10:05:21.824Z",
-      "isActive": true,
+      "isActive": false,
       "notified": false
     },
     {
