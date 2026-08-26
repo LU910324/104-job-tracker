@@ -1,8 +1,7 @@
 @echo off
-chcp 65001 >nul
-REM 把排程安裝到你的 Windows 電腦（只需要執行一次）。
-REM 用法：滑鼠雙擊這個檔案就可以了，或是在命令提示字元裡 cd 到專案資料夾後執行：
-REM   windows\install-task.bat
+REM Installs the hourly schedule on your Windows computer (run this once).
+REM Usage: double-click this file, or from Command Prompt after cd-ing into
+REM the project folder: windows\install-task.bat
 
 setlocal
 
@@ -13,24 +12,27 @@ schtasks /create /tn "%TASK_NAME%" /tr "\"%SCRIPT_PATH%\"" /sc hourly /mo 1 /st 
 
 if errorlevel 1 (
   echo.
-  echo 安裝失敗，請看看上面的錯誤訊息。
+  echo Install failed - please check the error message above.
   pause
   exit /b 1
 )
 
-REM 剛裝好先手動跑一次，方便馬上確認有沒有正常運作
+REM Run it once immediately so you can confirm right away that it works.
 schtasks /run /tn "%TASK_NAME%"
 
 echo.
-echo 已安裝排程！之後每小時的第5分會自動執行一次（現在也會馬上先跑一次測試）。
-echo 確認方式：
-echo   打開「工作排程器」(Task Scheduler)，左側「工作排程器程式庫」找 %TASK_NAME%
-echo   或在命令提示字元打：schtasks /query /tn "%TASK_NAME%"
-echo   看實際執行結果（抓到幾筆、有沒有報錯）：用記事本打開 logs\check.log
+echo Schedule installed! From now on it will run automatically every hour
+echo at minute 5 (it is also running once right now as a test).
 echo.
-echo 如果之後想移除排程：
-echo   雙擊 windows\uninstall-task.bat
-echo   或在命令提示字元打：schtasks /delete /tn "%TASK_NAME%" /f
+echo To check on it:
+echo   Open "Task Scheduler", look under "Task Scheduler Library" for %TASK_NAME%
+echo   Or in Command Prompt: schtasks /query /tn "%TASK_NAME%"
+echo   To see the actual results (how many jobs found, any errors):
+echo   open logs\check.log with Notepad
+echo.
+echo To remove the schedule later:
+echo   Double-click windows\uninstall-task.bat
+echo   Or in Command Prompt: schtasks /delete /tn "%TASK_NAME%" /f
 echo.
 pause
 
