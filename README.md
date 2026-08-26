@@ -104,24 +104,52 @@
 ## 步驟六：在自己的電腦上排程執行（目前唯一穩定可靠的方式）
 
 因為 104 的 Cloudflare 防護會擋下 GitHub Actions 的機房 IP，實際抓職缺的排程
-改成用你自己的電腦執行（家用/公司網路的IP，104不會擋）。設定一次之後，
-Mac 會用內建的排程工具（launchd）**每小時自動幫你跑一次**，不需要打開任何程式。
+改成用你自己的電腦執行（家用/公司網路的IP，104不會擋）。**Mac、Windows 都可以**，
+設定一次之後，電腦會用內建的排程工具（Mac 是 launchd，Windows 是「工作排程器」）
+**每小時自動幫你跑一次**，不需要打開任何程式。下面步驟大部分 Mac / Windows 共通，
+只有「打開終端機」跟最後「安裝排程」那步不一樣，會分開說明。
 
 ### 6-1　準備專案資料夾
 
-把整個專案資料夾放到你的電腦上（例如 `~/Documents/104-job-tracker`），
+把整個專案資料夾放到你的電腦上：
+- Mac 建議放在 `~/Documents/104-job-tracker`
+- Windows 建議放在 `C:\Users\你的帳號\Documents\104-job-tracker`
+
 資料夾內容要跟這個 GitHub repo 一致（可以直接下載我準備好的版本，或用
 `git clone https://github.com/LU910324/104-job-tracker.git` 抓下來）。
 
-### 6-2　安裝需要的套件
+### 6-2　安裝 Node.js、開終端機、安裝套件
 
-打開「終端機 Terminal」，執行：
+**Mac：**
+
+打開「終端機 Terminal」（Spotlight 搜尋「terminal」），執行：
 
 ```bash
 cd ~/Documents/104-job-tracker
 npm install
 npx playwright install chromium
 ```
+
+如果看到 `command not found: npm`，代表電腦還沒裝 Node.js：先到
+https://nodejs.org 下載 LTS 版本、安裝完後**關掉終端機重開一個新的**，
+再重新執行上面的指令。
+
+**Windows：**
+
+先到 https://nodejs.org 下載 LTS 版本（`.msi` 安裝檔），
+一路「Next」裝完（保持預設選項就好，會自動把 npm 加進系統 PATH）。
+
+安裝完打開「命令提示字元」或「PowerShell」（開始選單搜尋 `cmd` 或
+`PowerShell`），執行：
+
+```bat
+cd C:\Users\你的帳號\Documents\104-job-tracker
+npm install
+npx playwright install chromium
+```
+
+如果打開的視窗是裝 Node.js **之前**就開著的，一樣要關掉重開一個新的，
+才會認得剛裝好的 npm。
 
 第一次執行 `npx playwright install chromium` 會下載瀏覽器程式，可能要等一兩分鐘。
 
@@ -157,7 +185,7 @@ npx playwright install chromium
 
 ### 6-5　手動測試一次
 
-還在 Terminal 裡，執行：
+還在 Terminal（Windows 是命令提示字元/PowerShell）裡，執行：
 
 ```bash
 npm run check
@@ -176,7 +204,11 @@ npm run check
 
 ### 6-6　安裝排程，讓它以後自動每小時執行
 
-確認 6-5 測試沒問題之後，在 Terminal 裡執行：
+確認 6-5 測試沒問題之後：
+
+**Mac：**
+
+在 Terminal 裡執行：
 
 ```bash
 bash launchd/install.sh
@@ -195,6 +227,23 @@ tail -f logs/check.log                  # 即時看執行結果
 ```
 
 如果之後想要暫停或移除，`launchd/install.sh` 執行完的提示訊息裡有寫怎麼做。
+
+**Windows：**
+
+在專案資料夾裡，直接**滑鼠雙擊** `windows\install-task.bat`
+（或在命令提示字元裡執行 `windows\install-task.bat`）。
+
+這會把排程註冊到 Windows 內建的「工作排程器」(Task Scheduler)，
+之後每小時的第 5 分會自動幫你檢查一次，**電腦只要有開機、有登入、有連網就會執行**
+（螢幕鎖住沒關係；如果電腦睡眠或關機，那次排程會跳過，下次開機後的整點再繼續）。
+
+之後想確認排程還活著、或者想看執行紀錄：
+
+- 打開「工作排程器」應用程式，左側「工作排程器程式庫」找 `104-job-tracker`，
+  或在命令提示字元打 `schtasks /query /tn "104-job-tracker"`
+- 用記事本打開 `logs\check.log` 看實際執行結果
+
+如果之後想要移除，滑鼠雙擊 `windows\uninstall-task.bat` 即可。
 
 ---
 
