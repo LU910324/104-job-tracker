@@ -17,6 +17,9 @@ const ROOT = path.resolve(__dirname, "..");
 const CONFIG_PATH = path.join(ROOT, "config.json");
 const JOBS_PATH = path.join(ROOT, "data", "jobs.json");
 const SECRETS_PATH = path.join(ROOT, "secrets.local.json");
+const PROFILE_PATH = path.join(ROOT, "profile.local.json");
+
+const DEFAULT_ANTHROPIC_MODEL = "claude-haiku-4-5-20251001";
 
 // 如果在自己電腦上執行（而不是 GitHub Actions），會讀取這個本機專用的
 // secrets.local.json 檔案來取得 Discord Webhook 網址。這個檔案已經被加進
@@ -35,6 +38,90 @@ async function loadLocalSecretsIntoEnv() {
   if (!process.env.GITHUB_REPO && secrets.githubRepo) {
     process.env.GITHUB_REPO = secrets.githubRepo;
   }
+  if (!process.env.ANTHROPIC_API_KEY && secrets.anthropicApiKey) {
+    process.env.ANTHROPIC_API_KEY = secrets.anthropicApiKey;
+  }
+}
+
+// 讀取本機專用的 profile.local.json（技能、期望薪資、地點偏好、絕對不接受的
+// 條件），用來讓 AI 幫新職缺打適合度分數。這個檔案是選填的：沒有的話就完全
+// 跳過 AI 評分這一步，其他功能（抓職缺、Discord 通知）照常運作。
+async function loadProfile() {
+  return await loadJson(PROFILE_PATH, null);
+}
+
+// 呼叫 Anthropic API，讓 AI 依 profile 條件幫單一職缺打 1-5 分（含簡短理由），
+// 並判斷是否疑似詐騙／幽靈職缺。回傳 null 代表沒有設定 API Key，不會呼叫 API。
+// 呼叫失敗（額度用完、網路問題、API 回傳格式跑掉等）會丟出例外，由呼叫端接住，
+// 確保單一職缺評分失敗不會讓整支腳本中斷。
+async function evaluateJobWithAI(job, profile) {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) return null;
+
+  const model = profile.anthropicModel || DEFAULT_ANTHROPIC_MODEL;
+
+  const prompt = `你是求職顧問，幫使用者評估以下 104 人力銀行職缺是否適合他/她。
+
+【使用者條件】
+技能／專長：${profile.skills || "未提供"}
+過去經歷：${profile.experience || "未提供"}
+想找的職務類型：${profile.targetRoles || "未提供"}
+期望最低月薪（新台幣）：${profile.minSalary ?? "未設定"}
+地點偏好：${profile.locationPreference || "未設定"}
+絕對不能接受的條件：${profile.dealbreakers || "無"}
+
+【職缺資訊】
+職稱：${job.title}
+公司：${job.company || "未提供"}
+地點：${job.location || "未提供"}
+待遇：${job.salary || "未提供"}
+經歷要求：${job.experience || "未提供"}
+學歷要求：${job.education || "未提供"}
+網址：${job.url}
+
+請完成兩件事：
+1. 綜合技能契合度、薪資是否達標、地點是否符合偏好、是否踩到絕對不能接受的條件，
+   幫這個職缺打 1-5 分（可以有小數，5 分表示非常適合，1 分表示完全不適合），
+   並用不超過 40 字的繁體中文簡短說明理由。
+2. 判斷這個職缺是否疑似詐騙或幽靈職缺（例如：待遇模糊卻宣稱高薪、要求先繳費／
+   購買產品、職稱與內容明顯不符、要求提供銀行帳戶密碼等異常要求）。
+
+只回傳一個 JSON 物件，不要有任何其他文字或說明，格式：
+{"score": 數字, "reasoning": "字串", "scam": true或false, "scamReason": "字串或null"}`;
+
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
+    },
+    body: JSON.stringify({
+      model,
+      max_tokens: 300,
+      messages: [{ role: "user", content: prompt }],
+    }),
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`Anthropic API 回傳 ${res.status}: ${text.slice(0, 300)}`);
+  }
+
+  const data = await res.json();
+  const text = data.content?.[0]?.text || "";
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) {
+    throw new Error(`AI 回傳內容無法解析為 JSON：${text.slice(0, 200)}`);
+  }
+  const parsed = JSON.parse(jsonMatch[0]);
+
+  return {
+    score: typeof parsed.score === "number" ? parsed.score : null,
+    reasoning: typeof parsed.reasoning === "string" ? parsed.reasoning : null,
+    scam: parsed.scam === true,
+    scamReason: typeof parsed.scamReason === "string" ? parsed.scamReason : null,
+  };
 }
 
 const USER_AGENT =
@@ -136,20 +223,36 @@ async function sendDiscordNotification(webhookUrl, jobs) {
   const chunkSize = 10;
   for (let i = 0; i < jobs.length; i += chunkSize) {
     const chunk = jobs.slice(i, i + chunkSize);
-    const embeds = chunk.map((job) => ({
-      title: job.title,
-      url: job.url,
-      description: job.company || "",
-      color: 0xff6b00,
-      fields: [
+    const embeds = chunk.map((job) => {
+      const fields = [
         { name: "地點", value: job.location || "未提供", inline: true },
         { name: "待遇", value: job.salary || "未提供", inline: true },
         { name: "經驗", value: job.experience || "未提供", inline: true },
-      ].filter((f) => f.value),
-      footer: job.matchedSources?.length
-        ? { text: `符合條件：${job.matchedSources.join("、")}` }
-        : undefined,
-    }));
+      ];
+
+      if (typeof job.aiScore === "number") {
+        const scoreLine = job.aiReasoning ? `${job.aiScore} / 5 —— ${job.aiReasoning}` : `${job.aiScore} / 5`;
+        fields.push({ name: "🤖 AI 適合度評分", value: scoreLine, inline: false });
+      }
+      if (job.aiScam) {
+        fields.push({
+          name: "⚠️ AI 判斷疑似詐騙／幽靈職缺",
+          value: job.aiScamReason || "請自行斟酌，多加留意。",
+          inline: false,
+        });
+      }
+
+      return {
+        title: job.title,
+        url: job.url,
+        description: job.company || "",
+        color: job.aiScam ? 0xe74c3c : 0xff6b00,
+        fields: fields.filter((f) => f.value),
+        footer: job.matchedSources?.length
+          ? { text: `符合條件：${job.matchedSources.join("、")}` }
+          : undefined,
+      };
+    });
 
     const body = {
       username: "104 職缺追蹤",
@@ -231,6 +334,11 @@ async function main() {
   await loadLocalSecretsIntoEnv();
   const config = await loadJson(CONFIG_PATH, { keywords: [], companies: [] });
   const existing = await loadJson(JOBS_PATH, { lastUpdated: null, jobs: [] });
+  const profile = await loadProfile();
+  const aiEnabled = Boolean(profile && process.env.ANTHROPIC_API_KEY);
+  if (profile && !process.env.ANTHROPIC_API_KEY) {
+    console.log("已找到 profile.local.json，但尚未設定 anthropicApiKey，略過 AI 評分。");
+  }
 
   const existingMap = new Map(existing.jobs.map((j) => [j.id, j]));
   const isFirstRun = existingMap.size === 0;
@@ -324,6 +432,23 @@ async function main() {
         isActive: true,
         notified: shouldNotify,
       };
+
+      // 只對「新出現」的職缺呼叫 AI 評分（不是每次重跑都重新評，省成本）。
+      // 第一次執行（isFirstRun）建立基準資料時也跳過，避免一口氣評一大批職缺。
+      if (aiEnabled && !isFirstRun) {
+        try {
+          const evaluation = await evaluateJobWithAI(record, profile);
+          if (evaluation) {
+            record.aiScore = evaluation.score;
+            record.aiReasoning = evaluation.reasoning;
+            record.aiScam = evaluation.scam;
+            record.aiScamReason = evaluation.scamReason;
+          }
+        } catch (err) {
+          console.error(`AI 評分失敗（${record.title}）：${err.message}`);
+        }
+      }
+
       finalJobs.push(record);
       if (shouldNotify) newJobsToNotify.push(record);
     }
